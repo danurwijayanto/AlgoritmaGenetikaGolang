@@ -10,6 +10,7 @@ import (
 )
 
 type csvData []float64
+type initialCromosom [][]float64
 
 func GetCsvData() csvData {
 	// Variable Initialization
@@ -54,27 +55,35 @@ func (this csvData) PrintCsvData() {
 	}
 }
 
+func GenerateCromosom() initialCromosom {
+	var row []float64
+	pop_size := 7
+	gen_size := 6
+	// r := rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	individu := initialCromosom{}
+
+	for i := 0; i < pop_size; i++ {
+		row = nil
+		for j := 0; j < gen_size; j++ {
+			row = append(row, rand.Float64())
+		}
+		individu = append(individu, row)
+	}
+
+	return individu
+}
+
+func (this initialCromosom) PrintCsvData() {
+	for _, val := range this {
+		fmt.Println(val[0])
+	}
+}
 func main() {
 
 	// Mendefinisikan Variabel
 	data := GetCsvData()
-	pop_size := 7
-	gen_size := 6
-	individu := make([][]float64, pop_size)
-	// r := rand.New(rand.NewSource(time.Now().UnixNano()))
-
-	// Mendefinisikan array 2d dengan slice
-	for i := range individu {
-		individu[i] = make([]float64, gen_size)
-	}
-
-	// Mengisi data array slice dengan nilai random antara 0 - 1 bertipe float
-	for i := range individu {
-		for j := range individu[i] {
-			individu[i][j] = rand.Float64()
-		}
-		fmt.Println(individu[i])
-	}
-
 	data.PrintCsvData()
+	cromosom := GenerateCromosom()
+	cromosom.PrintCsvData()
 }
